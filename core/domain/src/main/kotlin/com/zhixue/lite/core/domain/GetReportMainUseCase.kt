@@ -105,12 +105,12 @@ class GetReportMainUseCase @Inject constructor(
      */
     private fun calculateTotalRank(
         trendList: List<com.zhixue.lite.core.model.network.LevelTrendResponse?>,
-        subjectDiagnosisList: com.zhixue.lite.core.model.network.SubjectDiagnosisResponse
+        subjectDiagnosisList: List<com.zhixue.lite.core.model.network.SubjectDiagnosisResponse.SubjectDiagnosis>
     ): Int? {
         val valid = trendList.mapIndexedNotNull { index, trend ->
             val info = trend?.list?.firstOrNull() ?: return@mapIndexedNotNull null
             val totalNum = info.effectiveTotalNum.takeIf { it > 0 } ?: return@mapIndexedNotNull null
-            val diagnosis = subjectDiagnosisList.list.getOrNull(index) ?: return@mapIndexedNotNull null
+            val diagnosis = subjectDiagnosisList.getOrNull(index) ?: return@mapIndexedNotNull null
             Triple(totalNum, diagnosis.myRank, info.improveBar.levelScale)
         }
         if (valid.isEmpty()) return null
