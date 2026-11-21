@@ -9,6 +9,8 @@ data class SubjectDiagnosisResponse(
     @Serializable
     data class SubjectDiagnosis(
         val myRank: Double,
-        val subjectCode: String
+        val subjectCode: String,
+        // 现行接口包含 subjectName，便于展示
+        val subjectName: String? = null
     )
 }

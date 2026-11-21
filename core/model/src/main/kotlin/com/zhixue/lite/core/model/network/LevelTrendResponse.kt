@@ -8,9 +8,14 @@ data class LevelTrendResponse(
 ) {
     @Serializable
     data class LevelTrendInfo(
-        val totalNum: Int,
+        // 现行接口字段为 statTotalNum（班级参加考试人数）；旧字段 totalNum 保留兼容
+        val statTotalNum: Int = 0,
+        val totalNum: Int = 0,
         val improveBar: ImproveBar
     ) {
+        val effectiveTotalNum: Int
+            get() = if (statTotalNum > 0) statTotalNum else totalNum
+
         @Serializable
         data class ImproveBar(
             val tag: Tag,

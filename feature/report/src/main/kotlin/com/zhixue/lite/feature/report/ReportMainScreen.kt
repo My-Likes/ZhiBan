@@ -164,6 +164,14 @@ fun ReportMainTotalPanel(
                 },
                 color = Theme.colors.onBackground
             )
+            total.rank?.let { rank ->
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(R.string.text_total_rank, rank),
+                    color = Theme.colors.onBackgroundVariant,
+                    style = Theme.typography.labelMedium
+                )
+            }
         }
         Spacer(modifier = Modifier.width(16.dp))
         CircularChart(

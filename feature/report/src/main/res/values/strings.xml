@@ -15,6 +15,7 @@
     <string name="label_no_trend">暂无趋势</string>
     <string name="label_check_sheet">原卷</string>
     <string name="text_rank">班级排名 %1$d</string>
+    <string name="text_total_rank">总分排名 第 %1$d 名（估算）</string>
     <string name="text_topics">%1$s题</string>
     <string name="text_objective">客观</string>
     <string name="text_subjective">主观</string>
