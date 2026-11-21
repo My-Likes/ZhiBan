@@ -16,6 +16,12 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
+/**
+ * 2025-11 实测修正：
+ * - 报告类接口已由 zxbReport/* 迁移到 zhixuebao/*，并改为 GET + query 参数；
+ * - 所有请求经 AuthInterceptor 自动附加 authguid/authtimestamp/authtoken/authbizcode(+XToken) 头；
+ * - token 字段保留传递，兼容 parent 端 token 鉴权。
+ */
 interface ZhixueApi {
 
     @FormUrlEncoded
@@ -52,41 +58,35 @@ interface ZhixueApi {
         )
     ): ZhixueResponse<PageAllExamListResponse>
 
-    @FormUrlEncoded
-    @POST("zxbReport/report/exam/getReportMain")
+    @GET("zhixuebao/report/exam/getReportMain")
     suspend fun getReportMain(
-        @Field("examId") examId: String,
-        @Field("token") token: String
+        @Query("examId") examId: String,
+        @Query("token") token: String
     ): ZhixueResponse<ReportMainResponse>
 
-    @FormUrlEncoded
-    @POST("zxbReport/report/exam/getSubjectDiagnosis")
+    @GET("zhixuebao/report/exam/getSubjectDiagnosis")
     suspend fun getSubjectDiagnosis(
-        @Field("examId") examId: String,
-        @Field("token") token: String
+        @Query("examId") examId: String,
+        @Query("token") token: String
     ): ZhixueResponse<SubjectDiagnosisResponse>
 
-    @FormUrlEncoded
-    @POST("zxbReport/report/paper/getLevelTrend")
+    @GET("zhixuebao/report/paper/getLevelTrend")
     suspend fun getLevelTrend(
-        @Field("examId") examId: String,
-        @Field("paperId") paperId: String,
-        @Field("token") token: String,
-        @FieldMap fields: Map<String, String> = mapOf(
-            "pageSize" to "2",
-            "pageIndex" to "1"
-        )
+        @Query("examId") examId: String,
+        @Query("paperId") paperId: String,
+        @Query("token") token: String,
+        @Query("pageIndex") pageIndex: Int = 1,
+        @Query("pageSize") pageSize: Int = 2
     ): ZhixueResponse<LevelTrendResponse>
 
-    @FormUrlEncoded
-    @POST("zxbReport/report/paper/getCheckSheet")
+    @GET("zhixuebao/report/checksheet/")
     suspend fun getCheckSheet(
-        @Field("examId") examId: String,
-        @Field("paperId") paperId: String,
-        @Field("token") token: String
+        @Query("examId") examId: String,
+        @Query("paperId") paperId: String,
+        @Query("token") token: String
     ): ZhixueResponse<CheckSheetResponse>
 
-    @GET("zxbReport/report/getPaperAnalysis")
+    @GET("zhixuebao/report/paper/getPaperAnalysis")
     suspend fun getPaperAnalysis(
         @Query("paperId") paperId: String,
         @Query("token") token: String

@@ -1,6 +1,7 @@
 package com.zhixue.lite.core.network.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.zhixue.lite.core.network.AuthInterceptor
 import com.zhixue.lite.core.network.api.ChangYanApi
 import com.zhixue.lite.core.network.api.GiteeApi
 import com.zhixue.lite.core.network.api.ZhixueApi
@@ -45,6 +46,7 @@ object NetworkModule {
     @Singleton
     fun provideCallFactory(interceptor: Interceptor): Call.Factory {
         return OkHttpClient().newBuilder()
+            .addInterceptor(AuthInterceptor())
             .addInterceptor(interceptor)
             .build()
     }
