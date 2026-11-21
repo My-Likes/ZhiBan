@@ -18,7 +18,7 @@ import retrofit2.http.Query
 
 /**
  * 2025-11 实测修正：
- * - 报告类接口已由 zxbReport/* 迁移到 zhixuebao/*，并改为 GET + query 参数；
+ * - 报告类接口已由 zxbReport 路径迁移到 zhixuebao 路径，并改为 GET + query 参数；
  * - 所有请求经 AuthInterceptor 自动附加 authguid/authtimestamp/authtoken/authbizcode(+XToken) 头；
  * - token 字段保留传递，兼容 parent 端 token 鉴权。
  */
