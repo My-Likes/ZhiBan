@@ -445,6 +445,7 @@ private fun formatTopicScore(score: Double, standardScore: Double): String {
     return "$scoreText / $standardText"
 }
 
+@OptIn(ExperimentalTextApi::class)
 @Composable
 fun ReportDetailCheckSheetPanel(
     checkSheets: List<ReportDetail.CheckSheet>
