@@ -160,7 +160,7 @@ private fun HtmlText(html: String, maxLines: Int) {
             TextView(context).apply {
                 setTextColor(textColor)
                 textSize = 14f
-                this.lineSpacingExtra = spacing * resources.displayMetrics.density
+                this.setLineSpacing(spacing * resources.displayMetrics.density, 1f)
             }
         },
         update = { textView ->
