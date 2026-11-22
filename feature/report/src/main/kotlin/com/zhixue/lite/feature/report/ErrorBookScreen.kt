@@ -153,14 +153,14 @@ private fun ErrorBookItem(topic: ErrorBookResponse.Topic) {
 @Composable
 private fun HtmlText(html: String, maxLines: Int) {
     val textColor = Theme.colors.onBackground.toArgb()
-    val lineSpacing = 6f
+    val spacing = 6f
     AndroidView(
         modifier = Modifier.fillMaxWidth(),
         factory = { context ->
             TextView(context).apply {
                 setTextColor(textColor)
                 textSize = 14f
-                this.lineSpacingExtra = lineSpacing
+                this.lineSpacingExtra = spacing * resources.displayMetrics.density
             }
         },
         update = { textView ->

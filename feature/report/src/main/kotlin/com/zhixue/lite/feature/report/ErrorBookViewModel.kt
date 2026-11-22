@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 sealed interface ErrorBookUiState {
-    data object Loading : ErrorBookUiState
-    data object Error : ErrorBookUiState
+    object Loading : ErrorBookUiState
+    object Error : ErrorBookUiState
     data class Success(val topics: List<ErrorBookResponse.Topic>) : ErrorBookUiState
 }
 

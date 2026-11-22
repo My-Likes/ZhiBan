@@ -75,7 +75,9 @@ fun ReportDetailScreen(
         name = name,
         uiState = viewModel.uiState,
         onBackClick = onBackClick,
-        navigateToErrorBook = navigateToErrorBook
+        navigateToErrorBook = {
+            navigateToErrorBook(viewModel.examId, viewModel.paperId, name)
+        }
     )
 }
 
@@ -84,7 +86,7 @@ fun ReportDetailScreen(
     name: String,
     uiState: ReportDetailUiState,
     onBackClick: () -> Unit,
-    navigateToErrorBook: (String, String, String) -> Unit = { _, _, _ -> }
+    navigateToErrorBook: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier.padding(horizontal = 24.dp)
@@ -101,13 +103,7 @@ fun ReportDetailScreen(
                 Row(
                     modifier = Modifier
                         .clip(Theme.shapes.small)
-                        .clickable {
-                            viewModel.examId?.let { examId ->
-                                viewModel.paperId?.let { paperId ->
-                                    navigateToErrorBook(examId, paperId, name)
-                                }
-                            }
-                        }
+                        .clickable(onClick = navigateToErrorBook)
                         .padding(vertical = 8.dp)
                 ) {
                     Text(

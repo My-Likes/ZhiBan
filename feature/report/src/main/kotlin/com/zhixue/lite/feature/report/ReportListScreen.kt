@@ -140,7 +140,8 @@ fun ReportListScreen(
                                 }
                                 .padding(horizontal = 24.dp, vertical = 12.dp),
                             text = stringResource(R.string.label_all_years),
-                            color = Theme.colors.onBackground
+                            color = Theme.colors.onBackground,
+                            style = Theme.typography.titleSmall
                         )
                     }
                     items(academicYears.size) { index ->
@@ -154,7 +155,8 @@ fun ReportListScreen(
                                 }
                                 .padding(horizontal = 24.dp, vertical = 12.dp),
                             text = year.name,
-                            color = if (year == currentYear) Theme.colors.primary else Theme.colors.onBackground
+                            color = if (year == currentYear) Theme.colors.primary else Theme.colors.onBackground,
+                            style = Theme.typography.titleSmall
                         )
                     }
                 }
