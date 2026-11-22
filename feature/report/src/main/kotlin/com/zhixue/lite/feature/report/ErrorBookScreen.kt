@@ -77,7 +77,7 @@ private fun ErrorBookPanel(
             Text(
                 text = name,
                 color = Theme.colors.onBackground,
-                style = Theme.typography.titleLarge
+                style = Theme.typography.titleMedium
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(

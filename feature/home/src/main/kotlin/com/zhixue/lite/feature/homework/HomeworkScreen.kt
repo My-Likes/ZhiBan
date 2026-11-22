@@ -51,7 +51,7 @@ fun HomeworkScreen(
                 modifier = Modifier.weight(1f),
                 text = stringResource(com.zhixue.lite.feature.home.R.string.label_homework),
                 color = Theme.colors.onBackground,
-                style = Theme.typography.titleLarge
+                style = Theme.typography.titleMedium
             )
             Text(
                 modifier = Modifier
@@ -138,7 +138,8 @@ fun HomeworkScreen(
                                     com.zhixue.lite.feature.home.R.string.text_hw_answer,
                                     answer
                                 ),
-                                color = Theme.colors.onBackgroundVariant
+                                color = Theme.colors.onBackgroundVariant,
+                                style = Theme.typography.titleSmall
                             )
                         }
                     }
@@ -148,7 +149,8 @@ fun HomeworkScreen(
                 Text(
                     modifier = Modifier.padding(32.dp),
                     text = stringResource(com.zhixue.lite.feature.home.R.string.text_hw_no_answer),
-                    color = Theme.colors.onBackgroundVariant
+                    color = Theme.colors.onBackgroundVariant,
+                    style = Theme.typography.titleSmall
                 )
             }
             HomeworkAnswerUiState.Hidden -> Unit
@@ -187,7 +189,8 @@ private fun HomeworkPanel(
                 Text(
                     modifier = Modifier.padding(vertical = 48.dp),
                     text = stringResource(com.zhixue.lite.feature.home.R.string.text_homework_empty),
-                    color = Theme.colors.onBackgroundVariant
+                    color = Theme.colors.onBackgroundVariant,
+                    style = Theme.typography.titleSmall
                 )
             }
         }
@@ -244,7 +247,11 @@ private fun HomeworkErrorPanel(
             .padding(top = 96.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = message, color = Theme.colors.onBackgroundVariant)
+        Text(
+            text = message,
+            color = Theme.colors.onBackgroundVariant,
+            style = Theme.typography.titleSmall
+        )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             modifier = Modifier

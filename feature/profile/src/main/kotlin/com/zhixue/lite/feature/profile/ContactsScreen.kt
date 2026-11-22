@@ -78,7 +78,8 @@ fun ContactsScreen(
                 ) {
                     Text(
                         text = stringResource(R.string.text_contacts_error),
-                        color = Theme.colors.onBackgroundVariant
+                        color = Theme.colors.onBackgroundVariant,
+                        style = Theme.typography.titleSmall
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
