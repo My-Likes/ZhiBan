@@ -19,7 +19,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -62,7 +62,7 @@ fun ContactsScreen(
             Text(
                 text = stringResource(R.string.label_contacts),
                 color = Theme.colors.onBackground,
-                style = Theme.typography.titleLarge
+                style = Theme.typography.titleMedium
             )
         }
         Crossfade(targetState = viewModel.uiState) { state ->
@@ -99,7 +99,7 @@ fun ContactsScreen(
 
 @Composable
 private fun ContactsPanel(state: ContactsUiState) {
-    var tab by rememberSaveable { mutableIntStateOf(0) }
+    var tab by rememberSaveable { mutableStateOf(0) }
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
