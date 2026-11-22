@@ -1,6 +1,7 @@
 package com.zhixue.lite.core.data.repository
 
 import com.zhixue.lite.core.network.ApiNetworkDataSource
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
@@ -26,5 +27,15 @@ class LoginRepositoryImpl @Inject constructor(
             schoolName = curUserInfo.school!!.schoolName,
             clazzId = curClassInfo.id.orEmpty()
         )
+    }
+
+
+    override suspend fun relogin(): Boolean {
+        return runCatching {
+            val (username, password) = userRepository.userData.first()
+            if (username.isEmpty() || password.isEmpty()) return false
+            login(username, password)
+            true
+        }.getOrDefault(false)
     }
 }

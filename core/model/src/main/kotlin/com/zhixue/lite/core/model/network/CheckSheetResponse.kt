@@ -25,8 +25,23 @@ data class CheckSheetResponse(
             @Serializable
             data class AnswerRecordDetail(
                 val score: Double,
-                val standardScore: Double
-            )
+                val standardScore: Double,
+                val dispTitle: String? = null,
+                val subTopics: List<SubTopic>? = null
+            ) {
+                @Serializable
+                data class SubTopic(
+                    val score: Double = 0.0,
+                    val standardScore: Double = 0.0,
+                    val teacherMarkingRecords: List<MarkingRecord>? = null
+                ) {
+                    @Serializable
+                    data class MarkingRecord(
+                        val markingTime: Long = 0,
+                        val score: Double = 0.0
+                    )
+                }
+            }
         }
 
         @Serializable

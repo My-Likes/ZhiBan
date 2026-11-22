@@ -26,6 +26,9 @@
     <string name="label_error_book_entry">错题本</string>
     <string name="label_academic_year">学年</string>
     <string name="label_all_years">全部学年</string>
+    <string name="label_exam_points">知识点掌握</string>
+    <string name="label_topic_records">逐题得分</string>
+    <string name="text_topic_sub_count">%1$d 小题</string>
     <string name="button_retry">重试</string>
     <string name="text_topics">%1$s题</string>
     <string name="text_objective">客观</string>

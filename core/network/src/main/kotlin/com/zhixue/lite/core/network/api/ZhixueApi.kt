@@ -4,6 +4,7 @@ import com.zhixue.lite.core.model.network.AcademicYearResponse
 import com.zhixue.lite.core.model.network.CasResponse
 import com.zhixue.lite.core.model.network.ContactStudent
 import com.zhixue.lite.core.model.network.ContactTeacher
+import com.zhixue.lite.core.model.network.ExamPointsResponse
 import com.zhixue.lite.core.model.network.ErrorBookResponse
 import com.zhixue.lite.core.model.network.HomeworkAnswerRequest
 import com.zhixue.lite.core.model.network.HomeworkAnswerResponse
@@ -103,6 +104,13 @@ interface ZhixueApi {
         @Query("paperId") paperId: String,
         @Query("token") token: String
     ): ZhixueResponse<PaperAnalysisResponse>
+
+    @GET("zhixuebao/report/paper/getExamPointsAndScoringAbility")
+    suspend fun getExamPointsAndScoringAbility(
+        @Query("examId") examId: String,
+        @Query("paperId") paperId: String,
+        @Query("token") token: String
+    ): ZhixueResponse<ExamPointsResponse>
 
     @GET("zhixuebao/report/paper/getLostTopicAndAnalysis")
     suspend fun getErrorBook(

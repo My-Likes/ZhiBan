@@ -49,6 +49,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import kotlin.math.roundToInt
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -345,6 +346,105 @@ fun ReportDetailOverviewAnswerItem(
 }
 
 @OptIn(ExperimentalTextApi::class)
+@Composable
+fun ReportDetailExamPointPanel(
+    examPoints: List<ReportDetail.ExamPoint>
+) {
+    if (examPoints.isEmpty()) return
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.label_exam_points),
+            color = Theme.colors.onBackgroundVariant,
+            style = Theme.typography.labelMedium
+        )
+        examPoints.forEach { point ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    modifier = Modifier.width(96.dp),
+                    text = point.name,
+                    color = Theme.colors.onBackground,
+                    style = Theme.typography.labelSmall,
+                    maxLines = 2,
+                    singleLine = false
+                )
+                ProgressBar(
+                    modifier = Modifier.weight(1f),
+                    value = point.scoreRate.toFloat()
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "${(point.scoreRate * 100).roundToInt()}%",
+                    color = Theme.colors.onBackgroundVariant,
+                    style = Theme.typography.labelSmall
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ReportDetailTopicPanel(
+    topicRecords: List<ReportDetail.TopicRecord>
+) {
+    if (topicRecords.isEmpty()) return
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.label_topic_records),
+            color = Theme.colors.onBackgroundVariant,
+            style = Theme.typography.labelMedium
+        )
+        topicRecords.forEach { record ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    modifier = Modifier.width(64.dp),
+                    text = record.title,
+                    color = Theme.colors.onBackground,
+                    style = Theme.typography.labelSmall
+                )
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = formatTopicScore(record.score, record.standardScore),
+                    color = if (record.score >= record.standardScore) {
+                        Theme.colors.primary
+                    } else if (record.score == 0.0) {
+                        Theme.colors.error
+                    } else {
+                        Theme.colors.onBackgroundVariant
+                    },
+                    style = Theme.typography.labelSmall
+                )
+                if (record.subRecords.isNotEmpty()) {
+                    Text(
+                        text = stringResource(R.string.text_topic_sub_count, record.subRecords.size),
+                        color = Theme.colors.onBackgroundVariant,
+                        style = Theme.typography.labelSmall
+                    )
+                }
+            }
+        }
+    }
+}
+
+private fun formatTopicScore(score: Double, standardScore: Double): String {
+    val scoreText = if (score == score.toLong().toDouble()) {
+        score.toLong().toString()
+    } else {
+        score.toString()
+    }
+    val standardText = if (standardScore == standardScore.toLong().toDouble()) {
+        standardScore.toLong().toString()
+    } else {
+        standardScore.toString()
+    }
+    return "$scoreText / $standardText"
+}
+
 @Composable
 fun ReportDetailCheckSheetPanel(
     checkSheets: List<ReportDetail.CheckSheet>

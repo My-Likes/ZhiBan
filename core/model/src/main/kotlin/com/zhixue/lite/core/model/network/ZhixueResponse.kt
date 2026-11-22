@@ -15,6 +15,9 @@ data class ZhixueResponse<out T>(
     val result: T?
 )
 
+/** token 失效标记异常，model 层独立定义避免循环依赖 */
+class TokenExpiredError(message: String) : IllegalStateException("TOKEN_EXPIRED: $message")
+
 private class ZhixueResponseSerializer<T>(
     private val serializer: KSerializer<T>
 ) : KSerializer<ZhixueResponse<T?>> {
@@ -31,6 +34,11 @@ private class ZhixueResponseSerializer<T>(
 
         val errorCode = element["errorCode"]!!.jsonPrimitive.int
         val errorInfo = element["errorInfo"]!!.jsonPrimitive.content
+
+        if (errorCode == 3002 || errorCode == 401 || errorCode == 50001 || errorCode == 50002) {
+            // token 失效类错误：network 层捕获后触发静默重登录
+            throw TokenExpiredError(errorInfo)
+        }
 
         require(errorCode == 0) { errorInfo }
 

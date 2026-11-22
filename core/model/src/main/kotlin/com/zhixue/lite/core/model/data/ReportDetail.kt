@@ -9,8 +9,31 @@ import kotlinx.serialization.encodeToString
 data class ReportDetail(
     val total: Total,
     val overview: Overview,
-    val checkSheets: List<CheckSheet>
+    val checkSheets: List<CheckSheet>,
+    val topicRecords: List<TopicRecord> = emptyList(),
+    val examPoints: List<ExamPoint> = emptyList()
 ) {
+    @Serializable
+    data class TopicRecord(
+        val title: String,
+        val score: Double,
+        val standardScore: Double,
+        val subRecords: List<SubRecord> = emptyList()
+    ) {
+        @Serializable
+        data class SubRecord(
+            val score: Double,
+            val standardScore: Double,
+            val markingTime: Long = 0
+        )
+    }
+
+    @Serializable
+    data class ExamPoint(
+        val name: String,
+        val scoreRate: Double,
+        val fullScoreRate: Double? = null
+    )
     @Serializable
     data class Total(
         val score: String,

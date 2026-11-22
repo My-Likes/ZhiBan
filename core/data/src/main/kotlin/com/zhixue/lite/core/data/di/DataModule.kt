@@ -10,8 +10,10 @@ import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.data.repository.ReportRepositoryImpl
 import com.zhixue.lite.core.data.repository.UpdateRepository
 import com.zhixue.lite.core.data.repository.UpdateRepositoryImpl
+import com.zhixue.lite.core.data.repository.TokenRefreshManager
 import com.zhixue.lite.core.data.repository.UserRepository
 import com.zhixue.lite.core.data.repository.UserRepositoryImpl
+import com.zhixue.lite.core.network.TokenRefreshListener
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -50,4 +52,9 @@ interface DataModule {
     fun bindModifyRepository(
         modifyRepository: ModifyRepositoryImpl
     ): ModifyRepository
+
+    @Binds
+    fun bindTokenRefreshListener(
+        tokenRefreshManager: TokenRefreshManager
+    ): TokenRefreshListener
 }

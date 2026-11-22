@@ -15,8 +15,13 @@ class GetReportDetailUseCase @Inject constructor(
     operator fun invoke(examId: String, paperId: String): Flow<ReportDetail> {
         return combine(
             reportRepository.getPaperAnalysis(paperId),
-            getCheckSheetUseCase(examId, paperId)
-        ) { (typeTopicAnalysis), reportDetailCheckSheets ->
+            getCheckSheetUseCase(examId, paperId),
+            kotlinx.coroutines.flow.flow {
+                emit(runCatching { reportRepository.getExamPoints(examId, paperId) }.getOrElse {
+                    com.zhixue.lite.core.model.network.ExamPointsResponse()
+                })
+            }
+        ) { (typeTopicAnalysis), checkSheetResult, examPoints ->
 
             var correctTopics = 0
             var incorrectTopics = 0
@@ -58,6 +63,14 @@ class GetReportDetailUseCase @Inject constructor(
                 totalScore.toFloat() / totalStandardScore.toFloat()
             )
 
+            val topicRecords = checkSheetResult.second
+            val examPointList = examPoints.examPointDTOs.map {
+                ReportDetail.ExamPoint(
+                    name = it.examPointName.orEmpty(),
+                    scoreRate = if (it.standardScore > 0) it.score / it.standardScore else 0.0
+                )
+            }.filter { it.name.isNotBlank() }
+
             val reportDetailOverview = ReportDetail.Overview(
                 type = ReportDetail.Overview.Type(
                     objective = ReportDetail.Overview.Type.Info(
@@ -87,7 +100,9 @@ class GetReportDetailUseCase @Inject constructor(
             ReportDetail(
                 total = reportDetailTotal,
                 overview = reportDetailOverview,
-                checkSheets = reportDetailCheckSheets
+                checkSheets = checkSheetResult.first,
+                topicRecords = topicRecords,
+                examPoints = examPointList
             ).also {
                 reportRepository.saveReportDetail(paperId, it)
             }

@@ -5,6 +5,7 @@ import com.zhixue.lite.core.model.network.CasResponse
 import com.zhixue.lite.core.model.network.ContactStudent
 import com.zhixue.lite.core.model.network.ContactTeacher
 import com.zhixue.lite.core.model.network.ErrorBookResponse
+import com.zhixue.lite.core.model.network.ExamPointsResponse
 import com.zhixue.lite.core.model.network.HwBankParams
 import com.zhixue.lite.core.model.network.HwBase
 import com.zhixue.lite.core.model.network.HwParams
@@ -33,6 +34,25 @@ class ApiNetworkDataSource @Inject constructor(
     private val authInterceptor: AuthInterceptor
 ) : NetworkDataSource {
 
+    @Volatile
+    var tokenRefreshListener: TokenRefreshListener? = null
+
+    /**
+     * 带失效续期的请求包装：errorCode 3002/50001 类未登录错误时静默重登录后重试一次。
+     */
+    private suspend fun <T> withAutoRelogin(block: suspend () -> T): T {
+        return try {
+            block()
+        } catch (e: com.zhixue.lite.core.model.network.TokenExpiredError) {
+            val refreshed = tokenRefreshListener?.onTokenExpired() ?: false
+            if (refreshed) {
+                block()
+            } else {
+                throw e
+            }
+        }
+    }
+
     override suspend fun getNewVersionCode(): NewVersionCodeResponse {
         return giteeApi.getNewVersionCode()
     }
@@ -46,7 +66,7 @@ class ApiNetworkDataSource @Inject constructor(
     }
 
     override suspend fun getUserInfo(token: String): UserInfoResponse {
-        return zhixueApi.getUserInfo(token).result!!
+        return withAutoRelogin { zhixueApi.getUserInfo(token).result!! }
     }
 
     override suspend fun modifyPassword(
@@ -59,14 +79,16 @@ class ApiNetworkDataSource @Inject constructor(
         reportType: String, pageIndex: Int, token: String,
         startSchoolYear: String?, endSchoolYear: String?
     ): PageAllExamListResponse {
-        return zhixueApi.getPageAllExamList(
-            reportType, pageIndex, token,
-            startSchoolYear, endSchoolYear
-        ).result!!
+        return withAutoRelogin {
+            zhixueApi.getPageAllExamList(
+                reportType, pageIndex, token,
+                startSchoolYear, endSchoolYear
+            ).result!!
+        }
     }
 
     override suspend fun getReportMain(examId: String, token: String): ReportMainResponse {
-        return zhixueApi.getReportMain(examId, token).result!!
+        return withAutoRelogin { zhixueApi.getReportMain(examId, token).result!! }
     }
 
     override suspend fun getSubjectDiagnosis(
@@ -153,5 +175,14 @@ class ApiNetworkDataSource @Inject constructor(
             ).result ?: HomeworkAnswerResponse()
             else -> throw IllegalStateException("该作业类型暂不支持查看答案")
         }
+    }
+
+
+    override suspend fun getExamPoints(
+        examId: String, paperId: String, token: String
+    ): ExamPointsResponse {
+        return runCatching {
+            zhixueApi.getExamPointsAndScoringAbility(examId, paperId, token).result
+        }.getOrNull() ?: ExamPointsResponse()
     }
 }

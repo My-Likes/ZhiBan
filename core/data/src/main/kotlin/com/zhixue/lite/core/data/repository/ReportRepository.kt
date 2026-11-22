@@ -9,6 +9,7 @@ import com.zhixue.lite.core.model.network.CheckSheetResponse
 import com.zhixue.lite.core.model.network.ContactStudent
 import com.zhixue.lite.core.model.network.ContactTeacher
 import com.zhixue.lite.core.model.network.ErrorBookResponse
+import com.zhixue.lite.core.model.network.ExamPointsResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PaperAnalysisResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
@@ -42,6 +43,8 @@ interface ReportRepository {
     suspend fun clearReportData()
 
     suspend fun getErrorBook(examId: String, paperId: String): ErrorBookResponse
+
+    suspend fun getExamPoints(examId: String, paperId: String): ExamPointsResponse
 
     suspend fun getAcademicYear(): List<AcademicYearResponse>
 

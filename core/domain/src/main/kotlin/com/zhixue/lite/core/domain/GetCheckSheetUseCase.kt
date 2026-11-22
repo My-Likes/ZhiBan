@@ -1,6 +1,7 @@
 package com.zhixue.lite.core.domain
 
 import com.zhixue.lite.core.data.repository.ReportRepository
+import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.model.data.ReportDetail
 import com.zhixue.lite.core.model.network.CheckSheetResponse
 import kotlinx.coroutines.flow.Flow
@@ -12,20 +13,38 @@ import kotlin.math.roundToInt
 class GetCheckSheetUseCase @Inject constructor(
     private val reportRepository: ReportRepository
 ) {
-    operator fun invoke(examId: String, paperId: String): Flow<List<ReportDetail.CheckSheet>> {
+    operator fun invoke(examId: String, paperId: String): Flow<Pair<List<ReportDetail.CheckSheet>, List<ReportDetail.TopicRecord>>> {
         return reportRepository.getCheckSheet(examId, paperId).map { (sheetData, sheetImages) ->
             val (answerRecordDetails) = sheetData.userAnswerRecordDTO
             val (comeFrom, paperType, pageSheets) = sheetData.answerSheetLocationDTO
 
-            pageSheets.mapIndexed { index, (sections, correctWidth, correctHeight) ->
+            val sheets = pageSheets.mapIndexed { index, (sections, correctWidth, correctHeight) ->
                 ReportDetail.CheckSheet(
                     url = sheetImages[index],
                     size = calculateCorrectSize(comeFrom, paperType, correctWidth, correctHeight),
                     sections = mapToCheckSheetSections(sections, answerRecordDetails)
                 )
             }
+
+            val topicRecords = answerRecordDetails.map { detail ->
+                ReportDetail.TopicRecord(
+                    title = detail.disTitle.orEmpty(),
+                    score = detail.score,
+                    standardScore = detail.standardScore,
+                    subRecords = detail.subTopics.orEmpty().map { sub ->
+                        ReportDetail.TopicRecord.SubRecord(
+                            score = sub.score,
+                            standardScore = sub.standardScore,
+                            markingTime = sub.teacherMarkingRecords
+                                ?.maxOfOrNull { it.markingTime } ?: 0L
+                        )
+                    }
+                )
+            }
+
+            sheets to topicRecords
         }.catch {
-            emit(emptyList())
+            emit(emptyList<ReportDetail.CheckSheet>() to emptyList())
         }
     }
 }

@@ -5,6 +5,7 @@ import com.zhixue.lite.core.model.network.CasResponse
 import com.zhixue.lite.core.model.network.ContactStudent
 import com.zhixue.lite.core.model.network.ContactTeacher
 import com.zhixue.lite.core.model.network.ErrorBookResponse
+import com.zhixue.lite.core.model.network.ExamPointsResponse
 import com.zhixue.lite.core.model.network.HomeworkAnswerResponse
 import com.zhixue.lite.core.model.network.HomeworkListResponse
 import com.zhixue.lite.core.model.network.CheckSheetResponse
@@ -53,6 +54,8 @@ interface NetworkDataSource {
     suspend fun getPaperAnalysis(paperId: String, token: String): PaperAnalysisResponse
 
     suspend fun getErrorBook(examId: String, paperId: String, token: String): ErrorBookResponse
+
+    suspend fun getExamPoints(examId: String, paperId: String, token: String): ExamPointsResponse
 
     suspend fun getAcademicYear(token: String): List<AcademicYearResponse>
 
