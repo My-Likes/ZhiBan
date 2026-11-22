@@ -58,6 +58,7 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:data"))
+    implementation(project(":core:network"))
     implementation(project(":core:model"))
     implementation(project(":feature:home"))
     implementation(project(":feature:login"))
