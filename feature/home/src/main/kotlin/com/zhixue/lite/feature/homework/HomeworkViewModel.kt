@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 sealed interface HomeworkUiState {
-    data object Loading : HomeworkUiState
-    data object Error : HomeworkUiState
+    object Loading : HomeworkUiState
+    object Error : HomeworkUiState
     data class Success(
         val homeworks: List<HomeworkListResponse.Homework>,
         val completeStatus: Int
@@ -22,9 +22,9 @@ sealed interface HomeworkUiState {
 }
 
 sealed interface HomeworkAnswerUiState {
-    data object Hidden : HomeworkAnswerUiState
-    data object Loading : HomeworkAnswerUiState
-    data object Error : HomeworkAnswerUiState
+    object Hidden : HomeworkAnswerUiState
+    object Loading : HomeworkAnswerUiState
+    object Error : HomeworkAnswerUiState
     data class Success(val answers: List<Pair<String, String>>) : HomeworkAnswerUiState
 }
 

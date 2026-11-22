@@ -109,7 +109,9 @@ fun HomeworkScreen(
             }
         }
         when (val state = viewModel.answerState) {
-            HomeworkAnswerUiState.Loading -> HomeworkAnswerDialog {
+            HomeworkAnswerUiState.Loading -> HomeworkAnswerDialog(
+                onDismiss = viewModel::dismissAnswers
+            ) {
                 Column(
                     modifier = Modifier.padding(32.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
