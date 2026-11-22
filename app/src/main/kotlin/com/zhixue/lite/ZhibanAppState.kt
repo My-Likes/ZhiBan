@@ -109,6 +109,7 @@ class ZhibanAppState(
 
         when (destination) {
             HomeDestination.REPORT_LIST -> navController.navigateToReportList(navOptions)
+            HomeDestination.HOMEWORK -> navController.navigate("homework_route", navOptions)
             HomeDestination.PROFILE -> navController.navigateToProfile(navOptions)
         }
     }
