@@ -63,7 +63,8 @@ fun NavController.navigateToReportDetail(
 }
 
 fun NavGraphBuilder.reportDetailScreen(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    navigateToErrorBook: (String, String, String) -> Unit = { _, _, _ -> }
 ) {
     composable(
         route = REPORT_DETAIL_ROUTE,
@@ -72,9 +73,40 @@ fun NavGraphBuilder.reportDetailScreen(
         val name = checkNotNull(backStackEntry.arguments?.getString("name"))
         ReportDetailScreen(
             name = name,
+            onBackClick = onBackClick,
+            navigateToErrorBook = navigateToErrorBook
+        )
+    }
+}
+
+const val ERROR_BOOK_ROUTE = "error_book_route?examId={examId}&paperId={paperId}&name={name}"
+
+fun NavController.navigateToErrorBook(
+    examId: String,
+    paperId: String,
+    name: String,
+    navOptions: NavOptions? = null
+) {
+    this.navigate(createErrorBookRoute(examId, paperId, name), navOptions)
+}
+
+fun NavGraphBuilder.errorBookScreen(
+    onBackClick: () -> Unit
+) {
+    composable(
+        route = ERROR_BOOK_ROUTE,
+        arguments = listOf(navArgument("name") { type = NavType.StringType })
+    ) { backStackEntry ->
+        val name = checkNotNull(backStackEntry.arguments?.getString("name"))
+        ErrorBookScreen(
+            name = name,
             onBackClick = onBackClick
         )
     }
+}
+
+private fun createErrorBookRoute(examId: String, paperId: String, name: String): String {
+    return "error_book_route?examId=$examId&paperId=$paperId&name=$name"
 }
 
 private fun createReportDetailRoute(examId: String, paperId: String, name: String): String {

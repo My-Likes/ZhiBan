@@ -30,8 +30,8 @@ class ReportDetailViewModel @Inject constructor(
     var uiState: ReportDetailUiState by mutableStateOf(ReportDetailUiState.Loading)
         private set
 
-    private val examId: String = checkNotNull(savedStateHandle["examId"])
-    private val paperId: String = checkNotNull(savedStateHandle["paperId"])
+    val examId: String = checkNotNull(savedStateHandle["examId"])
+    val paperId: String = checkNotNull(savedStateHandle["paperId"])
 
     init {
         viewModelScope.launch {

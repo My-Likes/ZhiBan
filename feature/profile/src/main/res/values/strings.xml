@@ -14,4 +14,10 @@
     <string name="check_update_contents">检测到新版本，是否跳转到浏览器下载？</string>
     <string name="check_update_button_jump">跳转</string>
     <string name="switch_account_title">快捷切换</string>
+    <string name="label_contacts">同学与老师</string>
+    <string name="label_contacts_entry">同学与老师</string>
+    <string name="label_classmates">同学（%1$d）</string>
+    <string name="label_teachers">老师（%1$d）</string>
+    <string name="text_contacts_error">联系人加载失败，可能当前账号不支持</string>
+    <string name="button_retry">重试</string>
 </resources>

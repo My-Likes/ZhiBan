@@ -172,6 +172,14 @@ fun ReportMainTotalPanel(
                     style = Theme.typography.labelMedium
                 )
             }
+            total.gradeRank?.let { gradeRank ->
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(R.string.text_grade_rank, gradeRank),
+                    color = Theme.colors.onBackgroundVariant,
+                    style = Theme.typography.labelMedium
+                )
+            }
         }
         Spacer(modifier = Modifier.width(16.dp))
         CircularChart(

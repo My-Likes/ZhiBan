@@ -16,6 +16,17 @@
     <string name="label_check_sheet">原卷</string>
     <string name="text_rank">班级排名 %1$d</string>
     <string name="text_total_rank">总分排名 第 %1$d 名（估算）</string>
+    <string name="text_grade_rank">年级排名 第 %1$d 名（估算）</string>
+    <string name="label_error_book">错题本 · 共 %1$d 题</string>
+    <string name="text_error_book_empty">该试卷暂无错题数据</string>
+    <string name="text_error_book_score">得分 %1$s / %2$s</string>
+    <string name="text_error_book_rate">班级得分率 %1$s%%</string>
+    <string name="label_answer">答案</string>
+    <string name="label_analysis">解析</string>
+    <string name="label_error_book_entry">错题本</string>
+    <string name="label_academic_year">学年</string>
+    <string name="label_all_years">全部学年</string>
+    <string name="button_retry">重试</string>
     <string name="text_topics">%1$s题</string>
     <string name="text_objective">客观</string>
     <string name="text_subjective">主观</string>

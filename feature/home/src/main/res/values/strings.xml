@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_homework">作业</string>
+    <string name="label_show_completed">看已完成</string>
+    <string name="label_show_uncompleted">看未完成</string>
+    <string name="text_homework_error">作业加载失败</string>
+    <string name="text_homework_empty">暂无作业</string>
+    <string name="text_hw_answer">答案：%1$s</string>
+    <string name="text_hw_no_answer">该作业暂不支持查看答案</string>
+    <string name="button_retry">重试</string>
+</resources>

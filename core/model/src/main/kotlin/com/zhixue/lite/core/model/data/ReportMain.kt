@@ -16,7 +16,8 @@ data class ReportMain(
         val score: String,
         val standardScore: String,
         val rate: Float,
-        val rank: Int? = null
+        val rank: Int? = null,
+        val gradeRank: Int? = null
     )
 
     @Serializable

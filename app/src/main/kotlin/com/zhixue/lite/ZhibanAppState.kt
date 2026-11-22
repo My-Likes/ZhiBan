@@ -14,6 +14,7 @@ import com.zhixue.lite.feature.home.navigateToHome
 import com.zhixue.lite.feature.login.navigateToLogin
 import com.zhixue.lite.feature.modify.navigateToModify
 import com.zhixue.lite.feature.profile.navigateToProfile
+import com.zhixue.lite.feature.report.navigateToErrorBook
 import com.zhixue.lite.feature.report.navigateToReportDetail
 import com.zhixue.lite.feature.report.navigateToReportList
 import com.zhixue.lite.feature.report.navigateToReportMain
@@ -79,6 +80,22 @@ class ZhibanAppState(
         }
 
         navController.navigateToReportDetail(examId, paperId, name, navOptions)
+    }
+
+    fun navigateToErrorBook(examId: String, paperId: String, name: String) {
+        val navOptions = navOptions {
+            launchSingleTop = true
+        }
+
+        navController.navigateToErrorBook(examId, paperId, name, navOptions)
+    }
+
+    fun navigateToContacts() {
+        val navOptions = navOptions {
+            launchSingleTop = true
+        }
+
+        navController.navigate("contacts_route", navOptions)
     }
 
     fun navigateToHomeDestination(destination: HomeDestination) {

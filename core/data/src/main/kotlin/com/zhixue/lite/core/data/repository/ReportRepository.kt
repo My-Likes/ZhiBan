@@ -4,7 +4,11 @@ import androidx.paging.PagingData
 import com.zhixue.lite.core.model.data.ReportDetail
 import com.zhixue.lite.core.model.data.ReportMain
 import com.zhixue.lite.core.model.database.ReportInfoEntity
+import com.zhixue.lite.core.model.network.AcademicYearResponse
 import com.zhixue.lite.core.model.network.CheckSheetResponse
+import com.zhixue.lite.core.model.network.ContactStudent
+import com.zhixue.lite.core.model.network.ContactTeacher
+import com.zhixue.lite.core.model.network.ErrorBookResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PaperAnalysisResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
@@ -13,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface ReportRepository {
 
-    fun getReportList(reportType: String): Flow<PagingData<ReportInfoEntity>>
+    fun getReportList(reportType: String, academicYear: AcademicYearResponse? = null): Flow<PagingData<ReportInfoEntity>>
 
     fun getReportMain(examId: String): Flow<ReportMainResponse>
 
@@ -36,4 +40,14 @@ interface ReportRepository {
     suspend fun clearReportList()
 
     suspend fun clearReportData()
+
+    suspend fun getErrorBook(examId: String, paperId: String): ErrorBookResponse
+
+    suspend fun getAcademicYear(): List<AcademicYearResponse>
+
+    suspend fun getExamLevelTrend(examId: String): LevelTrendResponse
+
+    suspend fun getClassmates(): List<ContactStudent>
+
+    suspend fun getTeachers(): List<ContactTeacher>
 }

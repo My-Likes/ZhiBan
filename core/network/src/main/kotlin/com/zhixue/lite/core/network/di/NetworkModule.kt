@@ -44,9 +44,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCallFactory(interceptor: Interceptor): Call.Factory {
+    fun provideAuthInterceptor(): AuthInterceptor {
+        return AuthInterceptor()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCallFactory(
+        authInterceptor: AuthInterceptor,
+        interceptor: Interceptor
+    ): Call.Factory {
         return OkHttpClient().newBuilder()
-            .addInterceptor(AuthInterceptor())
+            .addInterceptor(authInterceptor)
             .addInterceptor(interceptor)
             .build()
     }

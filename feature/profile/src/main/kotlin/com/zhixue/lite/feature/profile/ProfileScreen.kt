@@ -40,6 +40,7 @@ import com.zhixue.lite.core.ui.theme.Theme
 fun ProfileScreen(
     navigateToLogin: () -> Unit,
     navigateToModify: () -> Unit,
+    navigateToContacts: () -> Unit = {},
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -61,6 +62,7 @@ fun ProfileScreen(
 
     ProfileScreen(
         uiState = uiState,
+        navigateToContacts = navigateToContacts,
         onSettingItemClick = {
             when (it) {
                 1 -> showSwitchAccountDialog = true
@@ -116,6 +118,7 @@ fun ProfileScreen(
 @Composable
 fun ProfileScreen(
     uiState: ProfileUiState,
+    navigateToContacts: () -> Unit = {},
     onSettingItemClick: (Int) -> Unit
 ) {
     LazyColumn(
@@ -132,6 +135,16 @@ fun ProfileScreen(
         item { Spacer(modifier = Modifier) }
         item { HorizontalDivider() }
         item { ProfileSettingPanel(onSettingItemClick = onSettingItemClick) }
+        item {
+            Text(
+                modifier = Modifier
+                    .clickable(onClick = navigateToContacts)
+                    .padding(horizontal = 28.dp, vertical = 12.dp),
+                text = stringResource(R.string.label_contacts_entry),
+                color = Theme.colors.primary,
+                style = Theme.typography.titleSmall
+            )
+        }
     }
 }
 

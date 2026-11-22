@@ -1,6 +1,10 @@
 package com.zhixue.lite.core.data.di
 
+import com.zhixue.lite.core.data.repository.HomeworkRepository
+import com.zhixue.lite.core.data.repository.HomeworkRepositoryImpl
 import com.zhixue.lite.core.data.repository.LoginRepository
+import com.zhixue.lite.core.data.repository.HomeworkRepository
+import com.zhixue.lite.core.data.repository.HomeworkRepositoryImpl
 import com.zhixue.lite.core.data.repository.LoginRepositoryImpl
 import com.zhixue.lite.core.data.repository.ModifyRepository
 import com.zhixue.lite.core.data.repository.ModifyRepositoryImpl
@@ -28,6 +32,11 @@ interface DataModule {
     fun bindLoginRepository(
         loginRepository: LoginRepositoryImpl
     ): LoginRepository
+
+    @Binds
+    fun bindHomeworkRepository(
+        homeworkRepository: HomeworkRepositoryImpl
+    ): HomeworkRepository
 
     @Binds
     fun bindReportRepository(

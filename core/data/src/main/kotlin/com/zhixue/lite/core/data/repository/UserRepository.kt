@@ -8,6 +8,7 @@ interface UserRepository {
     val id: String
     val token: String
     val loginName: String
+    val clazzId: String
 
     val userData: Flow<UserData>
 
@@ -21,6 +22,7 @@ interface UserRepository {
         loginName: String,
         name: String,
         className: String,
-        schoolName: String
+        schoolName: String,
+        clazzId: String
     )
 }

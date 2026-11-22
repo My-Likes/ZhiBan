@@ -15,6 +15,8 @@ class UserRepositoryImpl @Inject constructor(
         private set
     override var loginName = ""
         private set
+    override var clazzId = ""
+        private set
 
     override val userData = preferencesDataSource.userData
 
@@ -35,11 +37,13 @@ class UserRepositoryImpl @Inject constructor(
         loginName: String,
         name: String,
         className: String,
-        schoolName: String
+        schoolName: String,
+        clazzId: String
     ) {
         this.id = id
         this.token = token
         this.loginName = loginName
+        this.clazzId = clazzId
         preferencesDataSource.setUserInfo(name, className, schoolName)
     }
 }

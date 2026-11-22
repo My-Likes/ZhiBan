@@ -13,7 +13,11 @@ import com.zhixue.lite.core.model.data.ReportMain
 import com.zhixue.lite.core.model.data.asEntity
 import com.zhixue.lite.core.model.database.ReportInfoEntity
 import com.zhixue.lite.core.model.database.asExternalModel
+import com.zhixue.lite.core.model.network.AcademicYearResponse
 import com.zhixue.lite.core.model.network.CheckSheetResponse
+import com.zhixue.lite.core.model.network.ContactStudent
+import com.zhixue.lite.core.model.network.ContactTeacher
+import com.zhixue.lite.core.model.network.ErrorBookResponse
 import com.zhixue.lite.core.model.network.LevelTrendResponse
 import com.zhixue.lite.core.model.network.PaperAnalysisResponse
 import com.zhixue.lite.core.model.network.ReportMainResponse
@@ -35,7 +39,10 @@ class ReportRepositoryImpl @Inject constructor(
 ) : ReportRepository {
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getReportList(reportType: String): Flow<PagingData<ReportInfoEntity>> {
+    override fun getReportList(
+        reportType: String,
+        academicYear: AcademicYearResponse?
+    ): Flow<PagingData<ReportInfoEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = REPORT_LIST_PAGE_SIZE
@@ -44,7 +51,9 @@ class ReportRepositoryImpl @Inject constructor(
                 reportInfoDao = reportInfoDao,
                 networkDataSource = networkDataSource,
                 reportType = reportType,
-                token = userRepository.token
+                token = userRepository.token,
+                startSchoolYear = academicYear?.beginTime,
+                endSchoolYear = academicYear?.endTime
             ),
             pagingSourceFactory = {
                 reportInfoDao.pagingSource(reportType)
@@ -105,5 +114,26 @@ class ReportRepositoryImpl @Inject constructor(
     override suspend fun clearReportData() {
         reportMainDao.clearAll()
         reportDetailDao.clearAll()
+    }
+
+
+    override suspend fun getErrorBook(examId: String, paperId: String): ErrorBookResponse {
+        return networkDataSource.getErrorBook(examId, paperId, userRepository.token)
+    }
+
+    override suspend fun getAcademicYear(): List<AcademicYearResponse> {
+        return networkDataSource.getAcademicYear(userRepository.token)
+    }
+
+    override suspend fun getExamLevelTrend(examId: String): LevelTrendResponse {
+        return networkDataSource.getExamLevelTrend(examId, userRepository.token)
+    }
+
+    override suspend fun getClassmates(): List<ContactStudent> {
+        return networkDataSource.getClassmates(userRepository.id, userRepository.clazzId, userRepository.token)
+    }
+
+    override suspend fun getTeachers(): List<ContactTeacher> {
+        return networkDataSource.getTeachers(userRepository.id, userRepository.clazzId, userRepository.token)
     }
 }

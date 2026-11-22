@@ -30,6 +30,7 @@ data class CasResponse(
 
     @Serializable
     data class ClassInfo(
-        val name: String
+        val name: String,
+        val id: String? = null
     )
 }

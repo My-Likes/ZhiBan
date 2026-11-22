@@ -13,12 +13,26 @@ fun NavController.navigateToProfile(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.profileScreen(
     navigateToLogin: () -> Unit,
-    navigateToModify: () -> Unit
+    navigateToModify: () -> Unit,
+    navigateToContacts: () -> Unit = {}
 ) {
     composable(route = PROFILE_ROUTE) {
         ProfileScreen(
             navigateToLogin = navigateToLogin,
-            navigateToModify = navigateToModify
+            navigateToModify = navigateToModify,
+            navigateToContacts = navigateToContacts
+        )
+    }
+}
+
+const val CONTACTS_ROUTE = "contacts_route"
+
+fun NavGraphBuilder.contactsScreen(
+    onBackClick: () -> Unit
+) {
+    composable(route = CONTACTS_ROUTE) {
+        ContactsScreen(
+            onBackClick = onBackClick
         )
     }
 }

@@ -27,7 +27,11 @@ android {
 
 dependencies {
     implementation(project(":core:ui"))
+    implementation(project(":core:data"))
+    implementation(project(":core:model"))
     implementation(project(":feature:report"))
     implementation(project(":feature:profile"))
     implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
 }

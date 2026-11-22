@@ -17,7 +17,9 @@ class ReportRemoteMediator(
     private val reportInfoDao: ReportInfoDao,
     private val networkDataSource: ApiNetworkDataSource,
     private val reportType: String,
-    private val token: String
+    private val token: String,
+    private val startSchoolYear: String? = null,
+    private val endSchoolYear: String? = null
 ) : RemoteMediator<Int, ReportInfoEntity>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -25,8 +27,10 @@ class ReportRemoteMediator(
             val localLatestReport =
                 reportInfoDao.query(reportType)
             val networkLatestReport =
-                networkDataSource.getPageAllExamList(reportType, REPORT_STARTING_PAGE_INDEX, token)
-                    .examInfoList.firstOrNull()
+                networkDataSource.getPageAllExamList(
+                    reportType, REPORT_STARTING_PAGE_INDEX, token,
+                    startSchoolYear, endSchoolYear
+                ).examInfoList.firstOrNull()
             check(networkLatestReport != null && localLatestReport?.id != networkLatestReport.examId)
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } catch (e: Exception) {
@@ -50,7 +54,9 @@ class ReportRemoteMediator(
             }
 
             val (hasNextPage, examInfoList) =
-                networkDataSource.getPageAllExamList(reportType, page, token)
+                networkDataSource.getPageAllExamList(
+                    reportType, page, token, startSchoolYear, endSchoolYear
+                )
 
             val endOfPaginationReached = !hasNextPage
 

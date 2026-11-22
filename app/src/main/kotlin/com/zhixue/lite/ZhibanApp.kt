@@ -30,6 +30,7 @@ import com.zhixue.lite.feature.home.homeGraph
 import com.zhixue.lite.feature.login.LOGIN_ROUTE
 import com.zhixue.lite.feature.login.loginScreen
 import com.zhixue.lite.feature.modify.modifyScreen
+import com.zhixue.lite.feature.report.errorBookScreen
 import com.zhixue.lite.feature.report.reportDetailScreen
 import com.zhixue.lite.feature.report.reportMainScreen
 
@@ -56,7 +57,9 @@ fun ZhibanApp(
                     homeGraph(
                         navigateToLogin = appState::navigateToLogin,
                         navigateToModify = appState::navigateToModify,
-                        navigateToReportMain = appState::navigateToReportMain
+                        navigateToReportMain = appState::navigateToReportMain,
+                        navigateToContacts = appState::navigateToContacts,
+                        navigateBack = appState::navigateBack
                     )
                     loginScreen(
                         navigateToHome = appState::navigateToHome
@@ -69,6 +72,10 @@ fun ZhibanApp(
                         navigateToReportDetail = appState::navigateToReportDetail
                     )
                     reportDetailScreen(
+                        onBackClick = appState::navigateBack,
+                        navigateToErrorBook = appState::navigateToErrorBook
+                    )
+                    errorBookScreen(
                         onBackClick = appState::navigateBack
                     )
                 }

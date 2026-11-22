@@ -79,6 +79,12 @@ class AuthInterceptor : Interceptor {
         return headers
     }
 
+    /**
+     * 获取当前可用的 XToken（阻塞调用，需在 IO 线程使用）。
+     * 供 mhw.zhixue.com 等需要把 token 作为 query 参数传递的接口使用。
+     */
+    fun getXToken(): String = obtainXToken(forceRefresh = false)
+
     private fun obtainXToken(forceRefresh: Boolean): String {
         if (!forceRefresh) {
             cachedToken.get()?.let { cached ->

@@ -81,7 +81,8 @@ class GetReportMainUseCase @Inject constructor(
                 score = totalScore.stripTrailingZeros().toPlainString(),
                 standardScore = totalStandardScore.stripTrailingZeros().toPlainString(),
                 rate = totalScore.toFloat() / totalStandardScore.toFloat(),
-                rank = calculateTotalRank(trendList, subjectDiagnosisList)
+                rank = calculateTotalRank(trendList, subjectDiagnosisList),
+                gradeRank = calculateGradeRank(examId)
             )
 
             ReportMain(
@@ -93,6 +94,28 @@ class GetReportMainUseCase @Inject constructor(
             }
         }.catch {
             emit(reportRepository.getLocalReportMain(examId))
+        }
+    }
+
+    /**
+     * 计算年级排名（估算）：
+     * 通过全科级别 getLevelTrend 拿到参考总人数与等级刻度（levelScale），
+     * levelScale 为百分数时按 小旗子位置法：rank = (100 - percent)/100 × totalNum；
+     * levelScale 为等级（如 A5）时按等级上界百分比映射。
+     */
+    private suspend fun calculateGradeRank(examId: String): Int? {
+        val info = runCatching {
+            reportRepository.getExamLevelTrend(examId).list.firstOrNull()
+        }.getOrNull() ?: return null
+        val totalNum = info.effectiveTotalNum
+        if (totalNum <= 0) return null
+        val percent = info.improveBar.levelScale.toDoubleOrNull()
+        return if (percent != null && percent in 0.0..100.0) {
+            ((100 - percent) / 100.0 * totalNum).roundToInt().coerceIn(1, totalNum)
+        } else {
+            levelUpperPercent(info.improveBar.levelScale)?.let {
+                (totalNum * it / 100.0).roundToInt().coerceIn(1, totalNum)
+            }
         }
     }
 

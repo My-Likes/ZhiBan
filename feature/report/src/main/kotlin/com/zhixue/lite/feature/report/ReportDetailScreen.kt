@@ -68,12 +68,14 @@ import kotlin.math.absoluteValue
 fun ReportDetailScreen(
     name: String,
     onBackClick: () -> Unit,
+    navigateToErrorBook: (String, String, String) -> Unit = { _, _, _ -> },
     viewModel: ReportDetailViewModel = hiltViewModel()
 ) {
     ReportDetailScreen(
         name = name,
         uiState = viewModel.uiState,
-        onBackClick = onBackClick
+        onBackClick = onBackClick,
+        navigateToErrorBook = navigateToErrorBook
     )
 }
 
@@ -81,7 +83,8 @@ fun ReportDetailScreen(
 fun ReportDetailScreen(
     name: String,
     uiState: ReportDetailUiState,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    navigateToErrorBook: (String, String, String) -> Unit = { _, _, _ -> }
 ) {
     Column(
         modifier = Modifier.padding(horizontal = 24.dp)
@@ -94,6 +97,26 @@ fun ReportDetailScreen(
             verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
             item { ReportDetailHeadline(name = name) }
+            item {
+                Row(
+                    modifier = Modifier
+                        .clip(Theme.shapes.small)
+                        .clickable {
+                            viewModel.examId?.let { examId ->
+                                viewModel.paperId?.let { paperId ->
+                                    navigateToErrorBook(examId, paperId, name)
+                                }
+                            }
+                        }
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.label_error_book_entry),
+                        color = Theme.colors.primary,
+                        style = Theme.typography.titleSmall
+                    )
+                }
+            }
             item {
                 Crossfade(uiState) {
                     when (it) {
