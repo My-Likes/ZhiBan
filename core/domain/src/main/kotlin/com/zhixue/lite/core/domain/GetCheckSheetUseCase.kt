@@ -1,7 +1,6 @@
 package com.zhixue.lite.core.domain
 
 import com.zhixue.lite.core.data.repository.ReportRepository
-import com.zhixue.lite.core.data.repository.ReportRepository
 import com.zhixue.lite.core.model.data.ReportDetail
 import com.zhixue.lite.core.model.network.CheckSheetResponse
 import kotlinx.coroutines.flow.Flow
@@ -28,7 +27,7 @@ class GetCheckSheetUseCase @Inject constructor(
 
             val topicRecords = answerRecordDetails.map { detail ->
                 ReportDetail.TopicRecord(
-                    title = detail.disTitle.orEmpty(),
+                    title = detail.dispTitle.orEmpty(),
                     score = detail.score,
                     standardScore = detail.standardScore,
                     subRecords = detail.subTopics.orEmpty().map { sub ->
