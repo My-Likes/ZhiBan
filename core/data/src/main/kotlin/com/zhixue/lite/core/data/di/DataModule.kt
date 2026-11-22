@@ -3,8 +3,6 @@ package com.zhixue.lite.core.data.di
 import com.zhixue.lite.core.data.repository.HomeworkRepository
 import com.zhixue.lite.core.data.repository.HomeworkRepositoryImpl
 import com.zhixue.lite.core.data.repository.LoginRepository
-import com.zhixue.lite.core.data.repository.HomeworkRepository
-import com.zhixue.lite.core.data.repository.HomeworkRepositoryImpl
 import com.zhixue.lite.core.data.repository.LoginRepositoryImpl
 import com.zhixue.lite.core.data.repository.ModifyRepository
 import com.zhixue.lite.core.data.repository.ModifyRepositoryImpl
